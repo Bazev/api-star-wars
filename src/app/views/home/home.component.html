@@ -1,0 +1,10 @@
+<div *ngIf="heroes; else noHeroes" class="col-11">
+  <app-caroussel [heroes]="heroes"></app-caroussel>
+</div>
+
+<ng-template #noHeroes>
+  <div class="col-11">
+    <img ngSrc="assets/pictures/Star_Wars_Logo.svg.png" height="1159" width="1920">
+  </div>
+</ng-template>
+
