@@ -1,0 +1,11 @@
+<div *ngIf="hero" class="card" style="width: 25rem;">
+  <img [src]="hero.imageUrl" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{hero.name}}</h5>
+    <p class="card-text">Apparait dans {{hero.films.length}} {{hero.films.length == 1 ? 'film' : 'films'}}</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li *ngIf="specie" class="list-group-item">Espece : {{specie.name}}</li>
+    <li class="list-group-item">Planète : {{planet?.name}}</li>
+  </ul>
+</div>
