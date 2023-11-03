@@ -19,5 +19,4 @@ export class HerosViewComponent implements OnInit{
     this.heroes = this.heroService.getHerosList();
   }
 
-
 }

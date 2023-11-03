@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Hero} from "../../../models/hero";
-import { Router} from "@angular/router";
 import {HeroService} from "../../../service/HeroService";
 
 @Component({
@@ -18,13 +17,11 @@ export class CarousselComponent implements OnInit {
   index3 = this.getRandom(0,9);
 
 
-  constructor(private router : Router, private heroService : HeroService) {
+  constructor(private heroService : HeroService) {
   }
 
   ngOnInit() : void {
-    console.log("récupération des id :"+this.index1, this.index2, this.index3)
   }
-
 
 
   getRandom(min : number, max : number) {
@@ -34,13 +31,8 @@ export class CarousselComponent implements OnInit {
   }
 
   voirDetailsHero(hero :Hero) : void  {
-    console.log("hero selectionne = "+hero.name)
-    this.heroService.setSelectedHero(hero)
-    this.router.navigate(['/hero']);
-
-
+   this.heroService.showHero(hero)
   }
-
 
 
 }

@@ -16,6 +16,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import { HerosViewComponent } from './views/heros-view/heros-view.component';
 import {NgOptimizedImage} from "@angular/common";
+import { ButtonDetailComponent } from './components/button-detail/button-detail.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {NgOptimizedImage} from "@angular/common";
     DetailHeroViewComponent,
     CardComponent,
     HerosViewComponent,
+    ButtonDetailComponent,
 
   ],
   imports: [

@@ -4,6 +4,7 @@ import {BehaviorSubject, map, Observable} from "rxjs";
 import {Hero} from "../models/hero";
 import {Planet} from "../models/planet";
 import {HerosViewComponent} from "../app/views/heros-view/heros-view.component";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class HeroService {
 
 
 
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient, private router : Router) {
     this.loadHeroImageMapping()
   }
 
@@ -72,6 +73,12 @@ export class HeroService {
 
   getHomeWorld(url : string): Observable<Planet> {
     return this.http.get<Planet>(url);
+  }
+
+  showHero(hero :Hero) : void  {
+    console.log("hero selectionne = "+hero.name)
+    this.setSelectedHero(hero)
+    this.router.navigate(['/hero']);
   }
 
 

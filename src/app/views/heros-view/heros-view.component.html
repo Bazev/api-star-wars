@@ -1,6 +1,8 @@
 <div class="container text-center">
   <div class="row">
     <div class="col-4" *ngFor="let hero of heroes"><app-card [hero]="hero"></app-card>
+
+      <app-button-detail [hero]="hero"></app-button-detail>
     </div>
   </div>
 </div>

@@ -11,21 +11,21 @@
             <img [src]="heroes.at(index1)?.imageUrl" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
               <h5 class="display-5">{{heroes.at(index1)?.name}}</h5>
-              <button (click)="voirDetailsHero(heroes[index1])" class="btn btn-dark">Voir sa fiche</button>
+              <app-button-detail [hero]="heroes[index1]"></app-button-detail>
             </div>
         </div>
         <div class="carousel-item">
           <img [src]="heroes.at(index2)?.imageUrl" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
                 <h5 class="display-5">{{heroes.at(index2)?.name}}</h5>
-              <button (click)="voirDetailsHero(heroes[index2])" class="btn btn-dark">Voir sa fiche</button>
+              <app-button-detail [hero]="heroes[index2]"></app-button-detail>
             </div>
         </div>
         <div class="carousel-item">
           <img [src]="heroes.at(index3)?.imageUrl" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
               <h5 class="display-5">{{heroes.at(index3)?.name}}</h5>
-              <button (click)="voirDetailsHero(heroes[index3])"  class="btn btn-dark">Voir sa fiche</button>
+              <app-button-detail [hero]="heroes[index3]"></app-button-detail>
             </div>
         </div>
     </div>
