@@ -29,11 +29,10 @@ export class TableauComponent implements OnInit, OnDestroy {
   private readonly filmService: FilmService = inject(FilmService);
   private subscriptions: Subscription[] = [];
 
-  constructor() {
+  ngOnInit(): void {
     this.subscribeToSelectedHero();
   }
 
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());

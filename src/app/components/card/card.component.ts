@@ -4,6 +4,7 @@ import { Hero } from '../../core/models/hero.model';
 import { HeroService } from '../../core/services/hero.service';
 import { Specie, Planet } from '../../core/models/index';
 import { SpecieService } from '../../core/services/specie.service';
+import { LoggerService } from '../../core/services/logger.service';
 import { Subscription } from 'rxjs';
 
 /**
