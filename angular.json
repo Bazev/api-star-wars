@@ -59,12 +59,15 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "star-wars:build"
+          },
           "configurations": {
             "production": {
-              "browserTarget": "star-wars:build:production"
+              "buildTarget": "star-wars:build:production"
             },
             "development": {
-              "browserTarget": "star-wars:build:development"
+              "buildTarget": "star-wars:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -95,5 +98,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "cba7f569-905d-49b7-b22d-73a96a93daaf"
   }
 }

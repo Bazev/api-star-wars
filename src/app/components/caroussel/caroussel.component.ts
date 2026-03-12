@@ -1,38 +1,52 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Hero} from "../../../models/hero";
-import {HeroService} from "../../../service/HeroService";
+import { Component, Input, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Hero } from '../../core/models/hero.model';
+import { HeroService } from '../../core/services/hero.service';
+import { ButtonDetailComponent } from '../button-detail/button-detail.component';
 
+/**
+ * Composant Caroussel - Affichage carousel de héros standalone
+ * - Utilise OnPush pour optimiser la détection de changement
+ * - Utilise inject() pour l'injection de dépendances
+ * - Affiche 3 héros aléatoires
+ */
 @Component({
   selector: 'app-caroussel',
+  standalone: true,
+  imports: [CommonModule, ButtonDetailComponent],
   templateUrl: './caroussel.component.html',
-  styleUrls: ['./caroussel.component.css']
+  styleUrls: ['./caroussel.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CarousselComponent implements OnInit {
+  @Input() heroes: Hero[] = [];
 
-  @Input() heroes : Hero[] = [];
+  index1 = 0;
+  index2 = 0;
+  index3 = 0;
 
+  private readonly heroService = inject(HeroService);
 
-  index1 = this.getRandom(0,9);
-  index2 = this.getRandom(0,9);
-  index3 = this.getRandom(0,9);
-
-
-  constructor(private heroService : HeroService) {
+  ngOnInit(): void {
+    if (this.heroes.length > 0) {
+      this.index1 = this.getRandomIndex();
+      this.index2 = this.getRandomIndex();
+      this.index3 = this.getRandomIndex();
+    }
   }
 
-  ngOnInit() : void {
+  /**
+   * Génère un index aléatoire valide
+   */
+  private getRandomIndex(): number {
+    return Math.floor(Math.random() * this.heroes.length);
   }
 
-
-  getRandom(min : number, max : number) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  /**
+   * Affiche les détails d'un héro
+   */
+  viewHeroDetails(hero: Hero): void {
+    console.log(`Affichage des détails de: ${hero.name}`);
+    this.heroService.showHero(hero);
   }
-
-  voirDetailsHero(hero :Hero) : void  {
-   this.heroService.showHero(hero)
-  }
-
-
 }

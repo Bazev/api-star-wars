@@ -1,0 +1,14 @@
+<div
+  *ngIf="currentError"
+  class="notification-container"
+  [ngClass]="getSeverityClass()"
+  @slideIn
+>
+  <div class="notification-content">
+    <div class="notification-message">{{ currentError.message }}</div>
+    <button class="notification-close" (click)="dismiss()" aria-label="Fermer la notification">
+      ✕
+    </button>
+  </div>
+</div>
+

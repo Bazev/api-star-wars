@@ -1,60 +1,70 @@
-import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
-import {HeroService} from "../../../service/HeroService";
-import {FilmService} from "../../../service/film-service";
-import {Hero} from "../../../models/hero";
-import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
-import {Film} from "../../../models/film";
-import {NgIf} from "@angular/common";
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HeroService } from '../../core/services/hero.service';
+import { FilmService } from '../../core/services/film.service';
+import { Hero } from '../../core/models/hero.model';
+import { Film } from '../../core/models/index';
+import { Subscription } from 'rxjs';
 
+/**
+ * Composant Tableau - Affichage des films d'un héro standalone
+ * - Affiche la liste des films du héro sélectionné
+ * - Utilise OnPush pour optimiser la détection de changement
+ * - Utilise inject() pour l'injection de dépendances
+ * - Gère proprement les subscriptions
+ */
 @Component({
   selector: 'app-tableau',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './tableau.component.html',
   styleUrls: ['./tableau.component.css'],
-  imports: [MatTableModule, MatSortModule, NgIf],
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableauComponent implements AfterViewInit{
+export class TableauComponent implements OnInit, OnDestroy {
+  films: Film[] = [];
+  hero: Hero | undefined;
 
-  films : Array<Film> = [];
-  hero : Hero | undefined;
-  displayedColumns: string[] = ['episode_id', 'title', 'release_date'];
-  dataSource = new MatTableDataSource<Film>(this.films);
+  private readonly heroService: HeroService = inject(HeroService);
+  private readonly filmService: FilmService = inject(FilmService);
+  private subscriptions: Subscription[] = [];
 
-  constructor(private heroService : HeroService, private filmService : FilmService, private _liveAnnouncer: LiveAnnouncer) {
+  constructor() {
+    this.subscribeToSelectedHero();
+  }
 
-    this.heroService.getSelectedHero().subscribe((hero) =>{
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  /**
+   * S'abonne au héro sélectionné et charge ses films
+   */
+  private subscribeToSelectedHero(): void {
+    const sub = this.heroService.selectedHero$.subscribe((hero: Hero | undefined) => {
       this.hero = hero;
-    })
-
-    this.loadFilms();
-  }
-
-  @ViewChild(MatSort) sort: MatSort | undefined;
-  ngAfterViewInit() {
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    }
-  }
-
-  loadFilms() {
-
-    if (this.hero) {
-      for (const  url of this.hero.films) {
-        const film = this.filmService.getFilm(url).subscribe((film) => {
-          this.films.push(film);
-          this.dataSource.data = this.films;
-        });
+      if (this.hero) {
+        this.loadFilms();
       }
-    }
+    });
+    this.subscriptions.push(sub);
   }
 
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+  /**
+   * Charge tous les films associés au héro
+   */
+  private loadFilms(): void {
+    this.films = [];
+
+    if (this.hero && this.hero.films && this.hero.films.length > 0) {
+      this.hero.films.forEach((filmUrl) => {
+        const sub = this.filmService.getFilm(filmUrl).subscribe((film: Film) => {
+          this.films.push(film);
+        });
+        this.subscriptions.push(sub);
+      });
     }
   }
 }
